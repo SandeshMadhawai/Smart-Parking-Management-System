@@ -93,11 +93,15 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
+const ocrRoutes = require('./routes/ocr');
+
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/areas', areaRoutes);
 app.use('/api/slots', slotRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/ocr', ocrRoutes);
 
 // 404 & Error handlers
 app.use(notFound);

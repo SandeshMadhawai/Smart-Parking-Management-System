@@ -20,6 +20,7 @@ import GuardSessions from './pages/guard/GuardSessions';
 
 // Owner (public QR)
 import SessionView from './pages/owner/SessionView';
+import GuardVerify from './pages/guard/GuardVerify';
 
 // Shared
 import ProtectedRoute from './components/shared/ProtectedRoute';
@@ -34,6 +35,7 @@ export default function App() {
 
       {/* QR scan - no auth */}
       <Route path="/session/:token" element={<SessionView />} />
+      <Route path="/guard/verify/:token" element={<GuardVerify />} />
 
       {/* Admin routes */}
       <Route path="/admin/dashboard" element={
