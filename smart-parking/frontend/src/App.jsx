@@ -17,10 +17,10 @@ import AdminSettings from './pages/admin/AdminSettings';
 import GuardLogin from './pages/guard/GuardLogin';
 import GuardDashboard from './pages/guard/GuardDashboard';
 import GuardSessions from './pages/guard/GuardSessions';
+import GuardVerify from './pages/guard/GuardVerify';
 
 // Owner (public QR)
 import SessionView from './pages/owner/SessionView';
-import GuardVerify from './pages/guard/GuardVerify';
 
 // Shared
 import ProtectedRoute from './components/shared/ProtectedRoute';
@@ -35,7 +35,6 @@ export default function App() {
 
       {/* QR scan - no auth */}
       <Route path="/session/:token" element={<SessionView />} />
-      <Route path="/guard/verify/:token" element={<GuardVerify />} />
 
       {/* Admin routes */}
       <Route path="/admin/dashboard" element={
@@ -64,6 +63,7 @@ export default function App() {
       <Route path="/guard/sessions" element={
         <ProtectedRoute role="guard"><GuardSessions /></ProtectedRoute>
       } />
+      <Route path="/guard/verify/:token" element={<GuardVerify />} />
 
       {/* Fallbacks */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />

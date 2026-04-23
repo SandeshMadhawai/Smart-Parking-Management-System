@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import toast from 'react-hot-toast';
-import { Car, RefreshCw, CheckCircle, Camera, Upload, Edit3, AlertTriangle, Phone, Hash } from 'lucide-react';
+import { Car, RefreshCw, CheckCircle, Camera, Upload, Edit3, AlertTriangle, Phone, Hash, QrCode } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import QRScanner from '../../components/guard/QRScanner';
 import api from '../../api/axios';
 import Layout from '../../components/shared/Layout';
 import Modal from '../../components/shared/Modal';
@@ -460,6 +462,8 @@ export default function GuardDashboard() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [sessionResult, setSessionResult] = useState(null);
   const [updatedSlots, setUpdatedSlots] = useState(new Set());
+  const [scannerOpen, setScannerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fetchSlots = useCallback(async () => {
     try {
@@ -531,6 +535,35 @@ export default function GuardDashboard() {
     }
   };
 
+  const handleQRScan = (scannedText) => {
+  setScannerOpen(false);
+
+  // Extract token from scanned URL
+  // URL format: http://xxx/guard/verify/TOKEN
+  // or: http://xxx/session/TOKEN
+  try {
+    const url = new URL(scannedText);
+    const parts = url.pathname.split('/').filter(Boolean);
+
+    // Handle both /guard/verify/:token and /session/:token
+    const token = parts[parts.length - 1];
+
+    if (token && token.length > 10) {
+      toast.success('QR scanned! Loading session...');
+      navigate(`/guard/verify/${token}`);
+    } else {
+      toast.error('Invalid QR code. Please scan the owner parking QR.');
+    }
+  } catch {
+    // If not a valid URL, try treating it as a token directly
+    if (scannedText && scannedText.length > 10) {
+      navigate(`/guard/verify/${scannedText}`);
+    } else {
+      toast.error('Invalid QR code. Please try again.');
+    }
+  }
+};
+
   const totalAvailable = slotsByArea.reduce((a, g) => a + g.slots.filter(s => s.status === 'available').length, 0);
   const totalOccupied = slotsByArea.reduce((a, g) => a + g.slots.filter(s => s.status === 'occupied').length, 0);
   const total = totalAvailable + totalOccupied;
@@ -538,16 +571,25 @@ export default function GuardDashboard() {
   return (
     <Layout>
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Slot Grid</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            {user?.name}{user?.assignedGate ? ` · ${user.assignedGate}` : ''}
-          </p>
-        </div>
-        <button onClick={fetchSlots} className="btn-secondary btn-sm">
-          <RefreshCw size={14} /> Refresh
-        </button>
-      </div>
+  <div>
+    <h1 className="text-xl font-bold text-gray-900">Slot Grid</h1>
+    <p className="text-sm text-gray-500 mt-0.5">
+      {user?.name}{user?.assignedGate ? ` · ${user.assignedGate}` : ''}
+    </p>
+  </div>
+  <div className="flex items-center gap-2">
+    {/* QR SCAN BUTTON */}
+    <button
+      onClick={() => setScannerOpen(true)}
+      className="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-black rounded-lg text-sm font-semibold transition-colors"
+    >
+      <QrCode size={16} /> Scan Exit QR
+    </button>
+    <button onClick={fetchSlots} className="btn-secondary btn-sm">
+      <RefreshCw size={14} /> Refresh
+    </button>
+  </div>
+</div>
 
       <div className="grid grid-cols-3 gap-3 mb-5">
         <div className="card p-3 text-center">
@@ -669,6 +711,14 @@ export default function GuardDashboard() {
           <SlotInfoModal slot={selectedSlot} onClose={() => setInfoModal(false)} onCheckout={handleManualCheckout} />
         )}
       </Modal>
+      
+      {/* QR Scanner Modal */}
+{scannerOpen && (
+  <QRScanner
+    onScan={handleQRScan}
+    onClose={() => setScannerOpen(false)}
+  />
+)}
     </Layout>
   );
 }
