@@ -11,7 +11,7 @@ export default function Home() {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <ParkingSquare size={18} className="text-white" />
           </div>
-          <span className="font-bold text-gray-900">ParkSmart</span>
+          <span className="font-bold text-gray-900">SpotJet</span>
         </div>
         <div className="flex gap-3">
           <Link to="/guard/login" className="btn-secondary btn-sm">Guard Login</Link>
@@ -65,7 +65,7 @@ export default function Home() {
       </div>
 
       <div className="bg-gray-900 text-center py-8">
-        <p className="text-gray-400 text-sm">© 2024 ParkSmart · Built with React + Node.js + MongoDB</p>
+        <p className="text-gray-400 text-sm">© 2024 SpotJet · Built with React + Node.js + MongoDB</p>
       </div>
     </div>
   );

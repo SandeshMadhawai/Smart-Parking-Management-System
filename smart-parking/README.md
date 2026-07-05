@@ -1,4 +1,4 @@
-# 🅿️ ParkSmart — Smart Parking Management System
+# 🅿️ SpotJet — Smart Parking Management System
 
 A production-ready, multi-tenant SaaS parking management platform for colleges, malls, and societies.
 Built with React + Vite, Node.js + Express, MongoDB, and Socket.IO.

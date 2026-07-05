@@ -12,7 +12,7 @@ const testTwilio = async () => {
 
   try {
     const msg = await client.messages.create({
-      body: 'ParkSmart test! SMS is working perfectly for your project.',
+      body: 'SpotJet test! SMS is working perfectly for your project.',
       from: process.env.TWILIO_PHONE,
       to: '+918380898957',
     });

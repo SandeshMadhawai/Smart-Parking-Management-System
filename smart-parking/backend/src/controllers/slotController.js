@@ -1,11 +1,9 @@
 const ParkingSlot = require('../models/ParkingSlot');
 const ParkingArea = require('../models/ParkingArea');
 
-// @route   GET /api/slots?areaId=&status=
 const getSlots = async (req, res, next) => {
   try {
     const filter = { organizationId: req.organizationId, isActive: true };
-
     if (req.query.areaId) filter.areaId = req.query.areaId;
     if (req.query.status) filter.status = req.query.status;
 
@@ -23,11 +21,12 @@ const getSlots = async (req, res, next) => {
   }
 };
 
-// @route   GET /api/slots/by-area
-// Returns slots grouped by area - for guard dashboard grid
 const getSlotsByArea = async (req, res, next) => {
   try {
-    const areas = await ParkingArea.find({ organizationId: req.organizationId, isActive: true }).sort('name');
+    const areas = await ParkingArea.find({
+      organizationId: req.organizationId,
+      isActive: true,
+    }).sort('name');
 
     const result = await Promise.all(
       areas.map(async (area) => {
@@ -37,11 +36,7 @@ const getSlotsByArea = async (req, res, next) => {
             select: 'vehicleNumber driverName entryTime expectedDurationHours sessionToken',
           })
           .sort('slotNumber');
-
-        return {
-          area: area.toObject(),
-          slots,
-        };
+        return { area: area.toObject(), slots };
       })
     );
 
@@ -51,12 +46,10 @@ const getSlotsByArea = async (req, res, next) => {
   }
 };
 
-// @route   POST /api/slots
 const createSlot = async (req, res, next) => {
   try {
     const { areaId, slotNumber, vehicleType, position } = req.body;
 
-    // Verify area belongs to org
     const area = await ParkingArea.findOne({ _id: areaId, organizationId: req.organizationId });
     if (!area) {
       return res.status(404).json({ success: false, message: 'Parking area not found.' });
@@ -70,7 +63,6 @@ const createSlot = async (req, res, next) => {
       position,
     });
 
-    // Update area's total slot count
     await ParkingArea.findByIdAndUpdate(areaId, { $inc: { totalSlots: 1 } });
 
     res.status(201).json({ success: true, message: 'Slot created.', data: slot });
@@ -79,8 +71,6 @@ const createSlot = async (req, res, next) => {
   }
 };
 
-// @route   POST /api/slots/bulk
-// Create multiple slots at once
 const createSlotsBulk = async (req, res, next) => {
   try {
     const { areaId, prefix, count, vehicleType } = req.body;
@@ -114,7 +104,6 @@ const createSlotsBulk = async (req, res, next) => {
   }
 };
 
-// @route   PUT /api/slots/:id
 const updateSlot = async (req, res, next) => {
   try {
     const slot = await ParkingSlot.findOneAndUpdate(
@@ -129,7 +118,6 @@ const updateSlot = async (req, res, next) => {
   }
 };
 
-// @route   DELETE /api/slots/:id
 const deleteSlot = async (req, res, next) => {
   try {
     const slot = await ParkingSlot.findOne({ _id: req.params.id, organizationId: req.organizationId });
@@ -150,4 +138,11 @@ const deleteSlot = async (req, res, next) => {
   }
 };
 
-module.exports = { getSlots, getSlotsByArea, createSlot, createSlotsBulk, updateSlot, deleteSlot };
+module.exports = {
+  getSlots,
+  getSlotsByArea,
+  createSlot,
+  createSlotsBulk,
+  updateSlot,
+  deleteSlot,
+};

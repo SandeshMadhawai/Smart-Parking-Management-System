@@ -55,7 +55,7 @@ export default function AdminLogin() {
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
             <ParkingSquare size={22} className="text-white" />
           </div>
-          <span className="text-xl font-bold text-white">ParkSmart</span>
+          <span className="text-xl font-bold text-white">SpotJet</span>
         </div>
 
         <div>
@@ -80,7 +80,7 @@ export default function AdminLogin() {
           </div>
         </div>
 
-        <p className="text-blue-300 text-sm">© 2024 ParkSmart. All rights reserved.</p>
+        <p className="text-blue-300 text-sm">© 2024 SpotJet. All rights reserved.</p>
       </div>
 
       {/* Right panel */}
@@ -91,7 +91,7 @@ export default function AdminLogin() {
             <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
               <ParkingSquare size={18} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">ParkSmart</span>
+            <span className="text-xl font-bold text-gray-900">SpotJet</span>
           </div>
 
           {/* Tabs */}

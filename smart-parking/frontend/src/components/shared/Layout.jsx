@@ -43,7 +43,7 @@ export default function Layout({ children }) {
             <ParkingSquare size={18} className="text-white" />
           </div>
           <div>
-            <p className="text-sm font-bold text-gray-900">ParkSmart</p>
+            <p className="text-sm font-bold text-gray-900">SpotJet</p>
             <p className="text-xs text-gray-500 truncate max-w-[140px]">{user?.name || 'Loading...'}</p>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function Layout({ children }) {
             <div className="w-6 h-6 bg-blue-600 rounded-md flex items-center justify-center">
               <ParkingSquare size={14} className="text-white" />
             </div>
-            <span className="font-semibold text-sm text-gray-900">ParkSmart</span>
+            <span className="font-semibold text-sm text-gray-900">SpotJet</span>
           </div>
           <div className="w-8" />
         </header>

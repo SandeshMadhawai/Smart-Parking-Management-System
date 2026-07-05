@@ -192,7 +192,7 @@ export default function SessionView() {
         </div>
 
         <p className="text-center text-xs text-gray-400 pb-4">
-          Powered by ParkSmart · {session.organizationName}
+          Powered by SpotJet · {session.organizationName}
         </p>
       </div>
     </div>

@@ -70,7 +70,7 @@ const sendParkingConfirmation = async ({
   });
 
   const message =
-    `ParkSmart: Parking confirmed!\n` +
+    `SpotJet: Parking confirmed!\n` +
     `Slot: ${slotNumber}\n` +
     `Entry: ${formattedTime}\n` +
     `View & Pay: ${sessionUrl}`;
