@@ -52,9 +52,7 @@ export default function AdminLogin() {
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-blue-600 flex-col justify-between p-12">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-            <ParkingSquare size={22} className="text-white" />
-          </div>
+          <img src="/SJ_Alterenate_logo_light.jpeg" alt="SpotJet" className="w-10 h-10 rounded-xl" />
           <span className="text-xl font-bold text-white">SpotJet</span>
         </div>
 
@@ -88,9 +86,7 @@ export default function AdminLogin() {
         <div className="w-full max-w-md">
           {/* Logo (mobile) */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
-              <ParkingSquare size={18} className="text-white" />
-            </div>
+            <img src="/SJ_Alterenate_logo_light.jpeg" alt="SpotJet" className="w-9 h-9 rounded-xl" />
             <span className="text-xl font-bold text-gray-900">SpotJet</span>
           </div>
 
