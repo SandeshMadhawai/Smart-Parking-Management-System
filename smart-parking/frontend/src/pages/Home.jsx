@@ -8,10 +8,8 @@ export default function Home() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <ParkingSquare size={18} className="text-white" />
-          </div>
-          <span className="font-bold text-gray-900">SpotJet</span>
+         <img src="/SJ_Alterenate_logo_light.jpeg" alt="SpotJet" className="w-8 h-8 rounded-lg" />
+<span className="font-bold text-gray-900">SpotJet</span> 
         </div>
         <div className="flex gap-3">
           <Link to="/guard/login" className="btn-secondary btn-sm">Guard Login</Link>
