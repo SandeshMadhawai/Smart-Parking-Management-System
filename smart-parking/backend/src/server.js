@@ -82,6 +82,10 @@ app.use('/api/slots', slotRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/ocr', ocrRoutes);
+app.use(cors({
+  origin: ['https://smart-parking-management-system-nine.vercel.app'],
+  credentials: true
+}));
 
 const bookingRoutes = require('./routes/bookings');
 const vehicleUserRoutes = require('./routes/vehicleUsers');
