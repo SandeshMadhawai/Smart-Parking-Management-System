@@ -8,6 +8,7 @@ const useAuthStore = create(
       token: null,
       user: null,
       userType: null, // 'organization' | 'user'
+      hasHydrated: false,
 
       setAuth: (token, user, userType) => {
         localStorage.setItem('token', token);
@@ -61,6 +62,9 @@ const useAuthStore = create(
     {
       name: 'auth-storage',
       partialize: (state) => ({ token: state.token, user: state.user, userType: state.userType }),
+      onRehydrateStorage: () => (state) => {
+        useAuthStore.setState({ hasHydrated: true });
+      }
     }
   )
 );
