@@ -14,6 +14,7 @@ import GuardDashboard from './pages/guard/GuardDashboard';
 import GuardSessions from './pages/guard/GuardSessions';
 import SessionView from './pages/owner/SessionView';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import GuardVerify from './pages/guard/GuardVerify';
 
 export default function App() {
   return (
@@ -47,6 +48,9 @@ export default function App() {
       } />
       <Route path="/guard/sessions" element={
         <ProtectedRoute role="guard"><GuardSessions /></ProtectedRoute>
+      } />
+      <Route path="/guard/verify/:token" element={
+         <ProtectedRoute role="guard"><GuardVerify /></ProtectedRoute>
       } />
 
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
