@@ -63,8 +63,8 @@ const useAuthStore = create(
       name: 'auth-storage',
       partialize: (state) => ({ token: state.token, user: state.user, userType: state.userType }),
       onRehydrateStorage: () => (state) => {
-        useAuthStore.setState({ hasHydrated: true });
-      }
+        if (state) state.hasHydrated = true;
+      },
     }
   )
 );
