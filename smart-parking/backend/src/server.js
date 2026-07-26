@@ -15,6 +15,8 @@ const areaRoutes = require('./routes/areas');
 const slotRoutes = require('./routes/slots');
 const sessionRoutes = require('./routes/sessions');
 const userRoutes = require('./routes/users');
+const ocrRoutes = require('./routes/ocr');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -87,7 +89,7 @@ app.use(cors({
   credentials: true
 }));
 
-const bookingRoutes = require('./routes/bookings');
+const bookingRoutes = require('./routes/booking');
 const vehicleUserRoutes = require('./routes/vehicleUsers');
 
 app.use('/api/bookings', bookingRoutes);
