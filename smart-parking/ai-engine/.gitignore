@@ -1,0 +1,18 @@
+# Virtual environment - each person creates their own locally, never commit this
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Uploaded/test images - these are temporary, not part of the actual code
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+!uploads/.gitkeep
+
+# Logs - generated at runtime, not source code
+logs/*.log
+
+# PaddleOCR's own cache (downloads to user's home folder, not project folder, but just in case)
+.paddlex/
