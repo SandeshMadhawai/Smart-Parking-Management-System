@@ -4,51 +4,75 @@ const FormData = require('form-data');
 const recognizePlate = async (imageBuffer, mimeType = 'image/jpeg') => {
   try {
     const formData = new FormData();
-    formData.append('upload', imageBuffer, {
+
+    // FastAPI expects the field name: "file"
+    formData.append('file', imageBuffer, {
       filename: 'plate.jpg',
       contentType: mimeType,
     });
-    formData.append('regions', 'in');
+
+    // FastAPI AI Engine
+    const aiEngineUrl =
+      process.env.AI_ENGINE_URL || 'http://127.0.0.1:8000';
 
     const response = await axios.post(
-      'https://api.platerecognizer.com/v1/plate-reader/',
+      `${aiEngineUrl}/api/ai/plate-recognition`,
       formData,
       {
         headers: {
-          Authorization: `Token ${process.env.PLATE_RECOGNIZER_TOKEN}`,
           ...formData.getHeaders(),
         },
-        timeout: 10000,
+        timeout: 30000,
       }
     );
 
-    const results = response.data.results;
+    const result = response.data;
 
-    if (!results || results.length === 0) {
-      return { success: false, plate: null, confidence: 0, message: 'No plate detected' };
+    // No plate detected
+    if (!result.success || !result.plate_number) {
+      return {
+        success: false,
+        plate: null,
+        confidence: 0,
+        message: result.message || 'No plate detected',
+      };
     }
 
-    const best = results[0];
-    const plate = best.plate.toUpperCase().replace(/\s+/g, '');
-    const confidence = Math.round(best.score * 100);
+    // Convert AI confidence:
+    // 0.9019 → 90
+    const confidence = Math.round(result.confidence * 100);
 
     return {
       success: true,
-      plate,
+      plate: result.plate_number
+        .toUpperCase()
+        .replace(/\s+/g, ''),
       confidence,
-      region: best.region?.code || null,
-      allResults: results.map(r => ({
-        plate: r.plate.toUpperCase(),
-        confidence: Math.round(r.score * 100),
-      })),
+      region: 'in',
+      bbox: result.bbox || null,
+      allResults: [
+        {
+          plate: result.plate_number
+            .toUpperCase()
+            .replace(/\s+/g, ''),
+          confidence,
+        },
+      ],
     };
   } catch (error) {
-    console.error('OCR Error:', error.response?.data || error.message);
+    console.error(
+      'AI OCR Error:',
+      error.response?.data || error.message
+    );
+
     return {
       success: false,
       plate: null,
       confidence: 0,
-      message: error.response?.data?.detail || 'OCR service error',
+      message:
+        error.response?.data?.message ||
+        error.response?.data?.detail ||
+        'AI OCR service error',
     };
   }
 };
