@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Shield, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, Shield, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuthStore from '../../store/authStore';
+import '../Auth.css';
 
 export default function GuardLogin() {
   const navigate = useNavigate();
@@ -26,41 +27,42 @@ export default function GuardLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Shield size={32} className="text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">Guard Login</h1>
-          <p className="text-gray-400 text-sm mt-1">Security Gate Access</p>
+    <main className="auth-page guard-auth-page">
+      <section className="guard-auth-card">
+        <Link to="/" className="auth-brand" aria-label="SpotJet home">
+          <img src="/SJ_Submark_logo_light.jpeg" alt="" />
+          <span>SPOTJET</span>
+        </Link>
+
+        <div className="auth-heading guard-auth-heading">
+          <Shield size={18} />
+          <h1>Guard Login</h1>
+          <p>Security Gate Access</p>
         </div>
 
-        <div className="bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-700">
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
-              <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="auth-field">
+            <label className="auth-label">Email</label>
+            <div className="auth-input-wrap">
+              <Mail size={16} className="auth-input-icon" />
                 <input
                   type="email"
-                  className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 pl-9 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder:text-gray-500"
+                  className="auth-input"
                   placeholder="guard@org.com"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
                   required
                 />
-              </div>
             </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
-              <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+          <div className="auth-field">
+            <label className="auth-label">Password</label>
+            <div className="auth-input-wrap">
+              <Lock size={16} className="auth-input-icon" />
                 <input
                   type={showPass ? 'text' : 'password'}
-                  className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 pl-9 pr-9 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder:text-gray-500"
+                  className="auth-input auth-input-password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
@@ -69,33 +71,26 @@ export default function GuardLogin() {
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="auth-password-toggle"
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
                 >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
-              </div>
             </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 mt-2"
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </button>
-          </form>
-
-          <div className="mt-4 p-3 bg-gray-700/50 rounded-lg text-xs text-gray-400">
-            <strong className="text-gray-300">Demo:</strong> guard1@techparkmall.com / guard123
           </div>
+
+          <button type="submit" disabled={loading} className="auth-submit">
+            {loading ? 'Signing in...' : 'Sign In'}
+            <ArrowRight size={17} />
+          </button>
+        </form>
+
+        <div className="auth-demo">
+          <strong>Demo:</strong> guard1@techparkmall.com / guard123
         </div>
 
-        <div className="mt-5 text-center">
-          <Link to="/admin/login" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
-            Admin? Login here →
-          </Link>
-        </div>
-      </div>
-    </div>
+        <Link to="/admin/login" className="auth-switch-link">Admin? Login here →</Link>
+      </section>
+    </main>
   );
 }

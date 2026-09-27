@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ParkingSquare, Mail, Lock, Eye, EyeOff, Building2 } from 'lucide-react';
+import { ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axios';
+import '../Auth.css';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -48,62 +49,58 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 flex-col justify-between p-12">
-        <div className="flex items-center gap-3">
-          <img src="/SJ_Submark_logo_light.jpeg" alt="SpotJet" className="w-10 h-10 rounded-xl" />
-          <span className="text-xl font-bold text-white">SpotJet</span>
-        </div>
+    <main className="auth-page admin-auth-page">
+      <section className="auth-showcase">
+        <Link to="/" className="auth-brand" aria-label="SpotJet home">
+          <img src="/SJ_Submark_logo_light.jpeg" alt="" />
+          <span>SPOTJET</span>
+        </Link>
 
-        <div>
-          <h1 className="text-4xl font-bold text-white leading-tight mb-4">
-            Smart Parking<br />Made Simple
-          </h1>
-          <p className="text-blue-100 text-lg leading-relaxed">
-            Manage your parking facility digitally. Real-time slot tracking, QR-based entry/exit, and detailed analytics.
-          </p>
-          <div className="mt-8 grid grid-cols-2 gap-4">
+        <div className="auth-showcase-content">
+          <h1>Smart Parking<br />Made Simple</h1>
+          <p>Manage your parking facility digitally. Real-time slot tracking, QR-based entry/exit, and detailed analytics.</p>
+          <div className="auth-highlight-grid">
             {[
               { label: 'Real-time Slots', desc: 'Live slot status updates' },
               { label: 'QR Entry/Exit', desc: 'Contactless vehicle tracking' },
               { label: 'Analytics', desc: 'Revenue & occupancy reports' },
               { label: 'Multi-tenant', desc: 'Isolated org data' },
             ].map((f) => (
-              <div key={f.label} className="bg-white/10 rounded-xl p-4">
-                <p className="text-white font-semibold text-sm">{f.label}</p>
-                <p className="text-blue-200 text-xs mt-0.5">{f.desc}</p>
-              </div>
+              <article key={f.label} className="auth-highlight">
+                <p>{f.label}</p>
+                <span>{f.desc}</span>
+              </article>
             ))}
           </div>
         </div>
 
-        <p className="text-blue-300 text-sm">© 2024 SpotJet. All rights reserved.</p>
-      </div>
+        <p className="auth-copyright">© {new Date().getFullYear()} SpotJet. All rights reserved.</p>
+      </section>
 
-      {/* Right panel */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          {/* Logo (mobile) */}
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <img src="/SJ_Submark_logo_light.jpeg" alt="SpotJet" className="w-9 h-9 rounded-xl" />
-            <span className="text-xl font-bold text-gray-900">SpotJet</span>
+      <section className="auth-panel">
+        <div className="auth-panel-inner">
+          <div className="auth-mobile-brand">
+            <Link to="/" className="auth-brand" aria-label="SpotJet home">
+              <img src="/SJ_Submark_logo_light.jpeg" alt="" />
+              <span>SPOTJET</span>
+            </Link>
           </div>
 
-          {/* Tabs */}
-          <div className="flex bg-gray-100 rounded-xl p-1 mb-8">
+          <div className="auth-tabs">
             <button
+              type="button"
               onClick={() => setTab('login')}
-              className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                tab === 'login' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              className={`auth-tab ${
+                tab === 'login' ? 'auth-tab-active' : ''
               }`}
             >
               Login
             </button>
             <button
+              type="button"
               onClick={() => setTab('register')}
-              className={`flex-1 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                tab === 'register' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              className={`auth-tab ${
+                tab === 'register' ? 'auth-tab-active' : ''
               }`}
             >
               Register Org
@@ -112,18 +109,18 @@ export default function AdminLogin() {
 
           {tab === 'login' ? (
             <>
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Admin Login</h2>
-                <p className="text-gray-500 text-sm mt-1">Sign in to your organization account</p>
+              <div className="auth-form-heading">
+                <h2>Admin Login</h2>
+                <p>Sign in to your organization account</p>
               </div>
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div>
-                  <label className="label">Email</label>
-                  <div className="relative">
-                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <form onSubmit={handleLogin} className="auth-form">
+                <div className="auth-field">
+                  <label className="auth-label">Email</label>
+                  <div className="auth-input-wrap">
+                    <Mail size={16} className="auth-input-icon" />
                     <input
                       type="email"
-                      className="input pl-9"
+                      className="auth-input"
                       placeholder="admin@company.com"
                       value={loginForm.email}
                       onChange={e => setLoginForm({ ...loginForm, email: e.target.value })}
@@ -131,13 +128,13 @@ export default function AdminLogin() {
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="label">Password</label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <div className="auth-field">
+                  <label className="auth-label">Password</label>
+                  <div className="auth-input-wrap">
+                    <Lock size={16} className="auth-input-icon" />
                     <input
                       type={showPass ? 'text' : 'password'}
-                      className="input pl-9 pr-9"
+                      className="auth-input auth-input-password"
                       placeholder="••••••••"
                       value={loginForm.password}
                       onChange={e => setLoginForm({ ...loginForm, password: e.target.value })}
@@ -146,82 +143,81 @@ export default function AdminLogin() {
                     <button
                       type="button"
                       onClick={() => setShowPass(!showPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                      className="auth-password-toggle"
+                      aria-label={showPass ? 'Hide password' : 'Show password'}
                     >
                       {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
-                <button type="submit" className="btn-primary w-full btn-lg" disabled={loading}>
+                <button type="submit" className="auth-submit" disabled={loading}>
                   {loading ? 'Signing in...' : 'Sign In'}
+                  <ArrowRight size={17} />
                 </button>
               </form>
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-700">
+              <div className="auth-demo">
                 <strong>Demo:</strong> admin@techparkmall.com / admin123
               </div>
             </>
           ) : (
             <>
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Register Organization</h2>
-                <p className="text-gray-500 text-sm mt-1">Create a new parking management account</p>
+              <div className="auth-form-heading">
+                <h2>Register Organization</h2>
+                <p>Create a new parking management account</p>
               </div>
-              <form onSubmit={handleRegister} className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="col-span-2">
-                    <label className="label">Organization Name</label>
-                    <input className="input" placeholder="Tech Park Mall" value={regForm.name}
+              <form onSubmit={handleRegister} className="auth-form">
+                <div className="auth-register-grid">
+                  <div className="auth-field auth-field-full">
+                    <label className="auth-label">Organization Name</label>
+                    <input className="auth-input" placeholder="Tech Park Mall" value={regForm.name}
                       onChange={e => setRegForm({ ...regForm, name: e.target.value })} required />
                   </div>
-                  <div className="col-span-2">
-                    <label className="label">Email</label>
-                    <input type="email" className="input" placeholder="admin@org.com" value={regForm.email}
+                  <div className="auth-field auth-field-full">
+                    <label className="auth-label">Email</label>
+                    <input type="email" className="auth-input" placeholder="admin@org.com" value={regForm.email}
                       onChange={e => setRegForm({ ...regForm, email: e.target.value })} required />
                   </div>
-                  <div>
-                    <label className="label">Password</label>
-                    <input type="password" className="input" placeholder="Min 6 chars" value={regForm.password}
+                  <div className="auth-field">
+                    <label className="auth-label">Password</label>
+                    <input type="password" className="auth-input" placeholder="Min 6 chars" value={regForm.password}
                       onChange={e => setRegForm({ ...regForm, password: e.target.value })} required />
                   </div>
-                  <div>
-                    <label className="label">Phone</label>
-                    <input className="input" placeholder="9876543210" value={regForm.phone}
+                  <div className="auth-field">
+                    <label className="auth-label">Phone</label>
+                    <input className="auth-input" placeholder="9876543210" value={regForm.phone}
                       onChange={e => setRegForm({ ...regForm, phone: e.target.value })} />
                   </div>
-                  <div>
-                    <label className="label">Type</label>
-                    <select className="input" value={regForm.type}
+                  <div className="auth-field">
+                    <label className="auth-label">Type</label>
+                    <select className="auth-input" value={regForm.type}
                       onChange={e => setRegForm({ ...regForm, type: e.target.value })}>
                       {['college','mall','society','hospital','office','other'].map(t => (
                         <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
                       ))}
                     </select>
                   </div>
-                  <div>
-                    <label className="label">UPI ID</label>
-                    <input className="input" placeholder="org@upi" value={regForm.upiId}
+                  <div className="auth-field">
+                    <label className="auth-label">UPI ID</label>
+                    <input className="auth-input" placeholder="org@upi" value={regForm.upiId}
                       onChange={e => setRegForm({ ...regForm, upiId: e.target.value })} />
                   </div>
-                  <div className="col-span-2">
-                    <label className="label">Address</label>
-                    <input className="input" placeholder="Street, City" value={regForm.address}
+                  <div className="auth-field auth-field-full">
+                    <label className="auth-label">Address</label>
+                    <input className="auth-input" placeholder="Street, City" value={regForm.address}
                       onChange={e => setRegForm({ ...regForm, address: e.target.value })} />
                   </div>
                 </div>
-                <button type="submit" className="btn-primary w-full btn-lg" disabled={loading}>
+                <button type="submit" className="auth-submit" disabled={loading}>
                   {loading ? 'Creating...' : 'Create Organization'}
+                  <ArrowRight size={17} />
                 </button>
               </form>
             </>
           )}
 
-          <div className="mt-6 text-center">
-            <Link to="/guard/login" className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
-              Security Guard? Login here →
-            </Link>
-          </div>
+          <Link to="/guard/login" className="auth-switch-link">Security Guard? Login here →</Link>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
